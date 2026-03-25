@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+RUN npx svelte-kit sync 
 RUN npm run build
 
 # --- Étape 2 : Exécution (Runner) ---

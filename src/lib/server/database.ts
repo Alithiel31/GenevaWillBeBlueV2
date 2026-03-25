@@ -1,20 +1,23 @@
 import { Sequelize } from 'sequelize';
-import { DATABASE_URL } from '$env/static/private';
+// 1. On passe de 'static' à 'dynamic'
+import { env } from '$env/dynamic/private'; 
 
-// On détermine si on est en production (sur Railway) pour activer le SSL
-const isProduction = process.env.NODE_ENV === 'production' || DATABASE_URL.includes('railway.app');
+// 2. On utilise env.DATABASE_URL au lieu de l'import direct
+const dbUrl = env.DATABASE_URL;
 
-export const sequelize = new Sequelize(DATABASE_URL, {
+// On détermine si on est en production
+const isProduction = process.env.NODE_ENV === 'production' || (dbUrl && dbUrl.includes('railway.app'));
+
+export const sequelize = new Sequelize(dbUrl, {
     dialect: 'postgres',
     logging: false,
     define: {
         timestamps: true,
     },
-    // AJOUT CRUCIAL POUR LE DÉPLOIEMENT
     dialectOptions: {
         ssl: isProduction ? {
             require: true,
-            rejectUnauthorized: false // Indispensable pour la plupart des PaaS
+            rejectUnauthorized: false
         } : false
     }
 });

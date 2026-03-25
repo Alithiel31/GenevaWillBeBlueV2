@@ -1,22 +1,31 @@
 import type { PageServerLoad } from './$types';
-// IMPORTANT : Importer le bon modèle pour la FAQ
 import { AccordionItem } from '$lib/server/models/Faq'; 
 
 export const prerender = false;
 export const ssr = true;
 
 export const load: PageServerLoad = async () => {
-    const faqs = await AccordionItem.findAll({
-        where: { category: 'anomaly' }, // 'general' pour l'autre fichier
-        order: [['order', 'ASC']]
-    });
+    try {
+        const faqs = await AccordionItem.findAll({
+            where: { category: 'anomaly' }, 
+            order: [['order', 'ASC']]
+        });
 
-    return {
-        // On renvoie les noms exacts de la BDD pour que le front s'y retrouve
-        faqs: faqs.map(f => ({
-            id: f.id,
-            question: f.question, // On utilise question
-            answer: f.answer      // On utilise answer
-        }))
-    };
+        return {
+            faqs: faqs.map(f => ({
+                id: f.id,
+                question: f.question,
+                answer: f.answer
+            }))
+        };
+    } catch (error) {
+        // Cela permet de voir l'erreur dans les logs du serveur Railway
+        console.error('Erreur lors du chargement des FAQs Anomaly:', error);
+        
+        // On renvoie un tableau vide pour que le test "crash de la base" passe
+        // et que l'utilisateur voie quand même la page (même si elle est vide)
+        return {
+            faqs: []
+        };
+    }
 };

@@ -13,7 +13,7 @@ export const load: PageServerLoad = async () => {
             // pour être sûr que les données sont de purs objets JSON sans fonctions cachées
             faqs: faqs.map(f => ({
                 title: f.title,
-                body: f.body
+                body: f.content
             }))
         };
     } catch (error) {

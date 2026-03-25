@@ -1,37 +1,35 @@
 import { Sequelize } from 'sequelize';
 import { env } from '$env/dynamic/private';
-// 1. Importe tes modèles normalement en haut
-import { Content } from './models/Travel';
-import { AccordionItem } from './models/Faq';
+import { initTravelModel } from './models/Travel';
+import { initFaqModel } from './models/Faq';
 
 const dbUrl = env.DATABASE_URL;
 const isProduction = process.env.NODE_ENV === 'production' || (dbUrl && dbUrl.includes('railway.app'));
 
-export const sequelize = new Sequelize(dbUrl, {
+export const sequelize = new Sequelize(dbUrl || '', {
     dialect: 'postgres',
     logging: false,
-    define: {
-        timestamps: true,
-    },
     dialectOptions: {
-        ssl: isProduction ? {
-            require: true,
-            rejectUnauthorized: false
-        } : false
+        ssl: isProduction ? { require: true, rejectUnauthorized: false } : false
     }
 });
 
-// 2. Ta fonction connectDB devient beaucoup plus simple
+let isInitialized = false;
+
 export const connectDB = async () => {
+    if (isInitialized) return;
+
     try {
         await sequelize.authenticate();
         
-        // Pas besoin d'imports dynamiques ici, Sequelize les reconnaît 
-        // car ils ont été initialisés lors de l'import en haut du fichier.
+        // On initialise les modèles avec l'instance
+        initTravelModel(sequelize);
+        initFaqModel(sequelize);
         
-        await sequelize.sync({ alter: true }); 
-        console.log('✅ Base de données synchronisée.');
+        await sequelize.sync({ alter: true });
+        isInitialized = true;
+        console.log('✅ DB Initialisée');
     } catch (e) {
-        console.error('❌ Erreur de connexion/synchronisation DB:', e);
+        console.error('❌ Erreur DB:', e);
     }
 };

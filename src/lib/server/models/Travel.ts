@@ -1,5 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '../database';
+import { DataTypes, Model, type Sequelize } from 'sequelize';
 
 export class Content extends Model {
   declare id: string;
@@ -10,23 +9,16 @@ export class Content extends Model {
   declare order: number;
 }
 
-Content.init({
-  id: {
-    type: DataTypes.STRING,
-    primaryKey: true
-  },
-  category: {
-    type: DataTypes.ENUM('anomaly', 'general', 'travel'),
-    allowNull: false
-  },
-  title: { type: DataTypes.STRING, allowNull: false },
-  content: {
-    type: DataTypes.JSONB,
-    allowNull: false
-  },
-  icon: { type: DataTypes.STRING, allowNull: true },
-  order: { type: DataTypes.INTEGER, defaultValue: 0 }
-}, {
-  sequelize,
-  modelName: 'Content'
-});
+export function initTravelModel(sequelize: Sequelize) {
+  Content.init({
+    id: { type: DataTypes.STRING, primaryKey: true },
+    category: { type: DataTypes.ENUM('anomaly', 'general', 'travel'), allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: false },
+    content: { type: DataTypes.JSONB, allowNull: false },
+    icon: { type: DataTypes.STRING, allowNull: true },
+    order: { type: DataTypes.INTEGER, defaultValue: 0 }
+  }, {
+    sequelize,
+    modelName: 'Content'
+  });
+}

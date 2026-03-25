@@ -10,42 +10,43 @@ export const sequelize = new Sequelize(dbUrl || '', {
     dialect: 'postgres',
     logging: false,
     dialectOptions: {
-        ssl: isProduction ? { require: true, rejectUnauthorized: false } : false
+        ssl: isProduction ? {
+            require: true,
+            rejectUnauthorized: false
+        } : false
     }
 });
 
 let isInitialized = false;
-
 let initializationPromise: Promise<void> | null = null;
 
 export const connectDB = async () => {
-    // Si c'est déjà fait, on sort
     if (isInitialized) return;
-
-    // Si une initialisation est EN COURS, on attend la fin de celle-ci
     if (initializationPromise) return initializationPromise;
 
-    // Sinon, on crée la promesse d'initialisation
     initializationPromise = (async () => {
         try {
             await sequelize.authenticate();
             console.log('🔵 [Database]: Connexion établie.');
 
-            // Initialisation des modèles
+            // 1. Initialisation structurelle des modèles
             initTravelModel(sequelize);
             initFaqModel(sequelize);
 
-            // Synchronisation des tables
+            // 2. Synchronisation physique des tables (création/mise à jour colonnes)
             await sequelize.sync({ alter: true });
-            
-            // --- OPTIONNEL : Ton script de SEED ici ---
-            // await seedDatabase(); 
+            console.log('✅ [Database]: Tables synchronisées.');
 
+            // 3. INJECTION DES DONNÉES (SEED)
+            // On importe runSeed dynamiquement ici pour éviter les erreurs au Build
+            const { runSeed } = await import('./seed'); 
+            await runSeed();
+            
             isInitialized = true;
-            console.log('✅ [Database]: Modèles chargés et tables synchronisées.');
+            console.log('💎 [Database]: Seed terminé, base de données prête !');
         } catch (e) {
             console.error('❌ [Database]: Erreur fatale :', e);
-            initializationPromise = null; // On permet de réessayer au prochain refresh
+            initializationPromise = null; 
             throw e;
         }
     })();

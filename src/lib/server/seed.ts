@@ -1,4 +1,5 @@
-import { AccordionItem, Content } from './models';
+import { AccordionItem } from './models/Faq';
+import { Content } from './models/Travel';
 import { anomalyFaqData, generalFaqData, travelData } from './data/seedData';
 
 export async function runSeed() {

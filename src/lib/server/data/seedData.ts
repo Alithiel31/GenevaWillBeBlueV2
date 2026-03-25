@@ -172,8 +172,8 @@ export const travelData = rawTravelData.map((item, index) => ({
 export const generalFaqData = rawGeneralFaq.map((item, index) => ({
     id: item.id,
     category: 'general',
-    title: item.question, // On mappe question -> title
-    content: item.answer, // On mappe answer -> content
+    question: item.question, // On mappe question -> title
+    answer: item.answer, // On mappe answer -> content
     order: index,
     isActive: true
 }));
@@ -181,8 +181,8 @@ export const generalFaqData = rawGeneralFaq.map((item, index) => ({
 export const anomalyFaqData = rawAnomalyFaq.map((item, index) => ({
     id: item.id,
     category: 'anomaly',
-    title: item.question,
-    content: item.answer,
+    question: item.question,
+    answer: item.answer,
     order: index,
     isActive: true
 }));

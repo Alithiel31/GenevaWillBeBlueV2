@@ -20,7 +20,7 @@ export function initFaqModel(sequelize: Sequelize) {
       allowNull: false
     },
     question: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     },
     answer: {

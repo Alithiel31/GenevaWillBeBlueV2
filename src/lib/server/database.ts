@@ -18,8 +18,8 @@ export const connectDB = async () => {
         // IMPORTANT : On importe les modèles ICI, à l'intérieur de la fonction.
         // Cela garantit que 'sequelize' est déjà exporté et disponible pour les modèles.
         await import('./models/Agent');
-        await import('./models/AccordionItem');
-        await import('./models/Content'); // Si tu décides de le garder
+        await import('./models/Faq');
+        await import('./models/Travel'); // Si tu décides de le garder
 
         await sequelize.sync({ alter: true }); 
         console.log('✅ Base de données synchronisée et modèles chargés.');

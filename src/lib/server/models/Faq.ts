@@ -2,19 +2,18 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../database';
 
 export class AccordionItem extends Model {
-  declare id: number;
-  declare category: string; // 'FAQ', 'Program', 'Rules', etc.
-  declare title: string;    // La question / Le titre de l'onglet
-  declare content: string;  // La réponse (peut contenir du HTML/Markdown)
-  declare order: number;    // Pour trier l'affichage
+  declare id: string; 
+  declare category: string; 
+  declare title: string;    
+  declare content: string;  
+  declare order: number;    
   declare isActive: boolean;
 }
 
 AccordionItem.init({
   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+    type: DataTypes.STRING, 
+    primaryKey: true,       
   },
   category: {
     type: DataTypes.STRING,
@@ -25,7 +24,7 @@ AccordionItem.init({
     allowNull: false,
   },
   content: {
-    type: DataTypes.TEXT, // TEXT permet de stocker de longs paragraphes
+    type: DataTypes.TEXT, 
     allowNull: false,
   },
   order: {

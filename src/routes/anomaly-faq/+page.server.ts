@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { Content } from '$lib/server/models/Content';
+import { Content } from '$lib/server/models/Travel';
 
 export const load: PageServerLoad = async () => {
     try {

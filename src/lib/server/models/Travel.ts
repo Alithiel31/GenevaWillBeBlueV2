@@ -2,25 +2,31 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../database';
 
 export class Content extends Model {
-  declare id: number;
+  declare id: string;
   declare category: 'anomaly' | 'general' | 'travel';
   declare title: string;
-  declare body: string;
+  declare content: any;
   declare icon: string | null;
   declare order: number;
 }
 
 Content.init({
-  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-  category: { 
-    type: DataTypes.ENUM('anomaly', 'general', 'travel'), 
-    allowNull: false 
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true
+  },
+  category: {
+    type: DataTypes.ENUM('anomaly', 'general', 'travel'),
+    allowNull: false
   },
   title: { type: DataTypes.STRING, allowNull: false },
-  body: { type: DataTypes.TEXT, allowNull: false }, 
+  content: {
+    type: DataTypes.JSONB,
+    allowNull: false
+  },
   icon: { type: DataTypes.STRING, allowNull: true },
   order: { type: DataTypes.INTEGER, defaultValue: 0 }
 }, {
-  sequelize, // Utilise l'instance importée
+  sequelize,
   modelName: 'Content'
 });

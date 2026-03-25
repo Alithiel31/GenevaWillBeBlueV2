@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { load } from './+page.server';
-import { Content } from '$lib/server/models/Content';
+import { Content } from '$lib/server/models/Travel';
 import type { ServerLoadEvent } from '@sveltejs/kit';
 
 // 1. Mock de Sequelize

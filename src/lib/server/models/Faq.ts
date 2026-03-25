@@ -4,7 +4,7 @@ export class AccordionItem extends Model {
   declare id: string;
   declare category: 'anomaly' | 'general';
   declare question: string;
-  declare answer: any; // Pour stocker du JSON (Rich Text)
+  declare answer: string; // Pour stocker du JSON (Rich Text)
   declare order: number;
 }
 

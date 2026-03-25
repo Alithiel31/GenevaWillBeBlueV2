@@ -3,7 +3,7 @@
     import { sanitize } from "$lib/utils/sanitize";
     import type { PageData } from "./$types";
 
-    // On définit l'interface pour correspondre à ta structure seedData.ts
+    // Structure du contenu JSON stocké en base
     interface TravelContent {
         paragraphs?: string[];
         intro?: string;
@@ -19,20 +19,18 @@
         commute_info?: string;
     }
 
+    // Structure de l'objet complet
+    interface TravelOption {
+        id: string;
+        title: string;
+        icon: string;
+        content: TravelContent;
+    }
+
     let { data }: { data: PageData } = $props();
 
-    // On s'assure que TypeScript comprend que 'content' suit notre interface
-    
-// 1. Définis l'interface (si tu ne l'as pas déjà fait)
-interface TravelOption {
-    id: string;
-    title: string;
-    icon: string;
-    content: TravelContent; // Utilise l'interface TravelContent définie plus haut
-}
-
-// 2. Utilise la rune $derived
-let options = $derived((data.options as unknown as TravelOption[]) ?? []);
+    // Utilisation de $derived pour la réactivité et le typage propre
+    let options = $derived((data.options as unknown as TravelOption[]) ?? []);
 </script>
 
 <section class="coming">
@@ -41,8 +39,7 @@ let options = $derived((data.options as unknown as TravelOption[]) ?? []);
             <hgroup>
                 <h1>Coming to Geneva…</h1>
                 <p>
-                    <strong>There are lots of ways to get to Geneva!</strong><br
-                    />
+                    <strong>There are lots of ways to get to Geneva!</strong><br />
                     Whether you're local, from Switzerland, or from far away.
                 </p>
             </hgroup>
@@ -53,9 +50,10 @@ let options = $derived((data.options as unknown as TravelOption[]) ?? []);
                     <Accordion title={option.title} icon={option.icon}>
                         <div class="accordion-inner">
                             {#if option.content.paragraphs}
-                                {#each option.content.paragraphs as p}
+                                {#each option.content.paragraphs as p, i (i)}
                                     <p class="mb-4">{@html sanitize(p)}</p>
                                 {/each}
+                                
                             {:else if option.id === "stay"}
                                 <p class="mb-2 text-lg">
                                     {@html sanitize(option.content.intro ?? "")}
@@ -65,7 +63,7 @@ let options = $derived((data.options as unknown as TravelOption[]) ?? []);
                                 </p>
 
                                 <ul class="list-disc ml-5 mb-4">
-                                    {#each option.content.budget_options ?? [] as hotel}
+                                    {#each option.content.budget_options ?? [] as hotel (hotel.name)}
                                         <li class="mb-1">
                                             <a
                                                 href={hotel.url}
@@ -79,25 +77,17 @@ let options = $derived((data.options as unknown as TravelOption[]) ?? []);
                                 </ul>
 
                                 {#if option.content.camping}
-                                    <div
-                                        class="bg-slate-100 p-4 rounded-lg mb-4 border-l-4 border-green-500"
-                                    >
+                                    <div class="bg-slate-100 p-4 rounded-lg mb-4 border-l-4 border-green-500">
                                         <p>
                                             {option.content.camping.icon}
-                                            <strong
-                                                >{option.content.camping
-                                                    .name}</strong
-                                            >
-                                            :
+                                            <strong>{option.content.camping.name}</strong> :
                                             {option.content.camping.description}
                                         </p>
                                     </div>
                                 {/if}
 
-                                {#each option.content.benefits ?? [] as benefit}
-                                    <p
-                                        class="italic text-sm text-slate-600 mb-2 border-l-2 border-slate-300 pl-3"
-                                    >
+                                {#each option.content.benefits ?? [] as benefit, i (i)}
+                                    <p class="italic text-sm text-slate-600 mb-2 border-l-2 border-slate-300 pl-3">
                                         {benefit}
                                     </p>
                                 {/each}
@@ -115,7 +105,7 @@ let options = $derived((data.options as unknown as TravelOption[]) ?? []);
 </section>
 
 <style>
-    /* Petit correctif pour l'espacement dans l'accordéon */
+    /* Correctif pour l'espacement dans l'accordéon */
     .accordion-inner p {
         margin-bottom: 1rem;
     }

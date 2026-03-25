@@ -4,7 +4,8 @@ export class Content extends Model {
   declare id: string;
   declare category: 'anomaly' | 'general' | 'travel';
   declare title: string;
-  declare content: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  declare content: any; // On autorise explicitement 'any' ici pour le JSONB
   declare icon: string | null;
   declare order: number;
 }

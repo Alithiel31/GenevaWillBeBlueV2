@@ -26,10 +26,10 @@ jobs:
       - name: 🧪 Run Vitest
         run: npm run test
 
-      - name: 🏗️ Check SvelteKit Build
+      - name: Build
         run: npm run build
         env:
-          DATABASE_URL: "postgres://user:pass@localhost:5432/db" 
+          DATABASE_URL: ${{ secrets.DATABASE_URL }} # Injecte le secret ici
 
       - name: 🔍 Lint Code
         run: npm run lint

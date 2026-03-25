@@ -1,6 +1,7 @@
 <script lang="ts">
     import favicon from "$lib/assets/Geneve-Color.png";
     import "$lib/styles/app.scss";
+    
 
     import Header from "$lib/components/Header.svelte";
     import Footer from "$lib/components/Footer.svelte";

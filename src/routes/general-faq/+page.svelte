@@ -1,5 +1,6 @@
 <script lang="ts">
     import Accordion from "$lib/components/Accordion.svelte";
+    import { sanitize } from "$lib/utils/sanitize";
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
@@ -18,9 +19,9 @@
         </div>
         <div class="right">
             <div class="accordion">
-                {#each data.faqs as faq}
+                {#each data.faqs as faq (faq.title)}
                     <Accordion title={faq.title}>
-                        {@html faq.body}
+                        {@html sanitize(faq.body)}
                     </Accordion>
                 {/each}
             </div>

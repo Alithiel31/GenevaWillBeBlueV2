@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    const targetDate = new Date("2026-06-20T14:00:00").getTime(); // Format ISO plus robuste
+    const targetDate = new Date("2026-06-20T14:00:00").getTime();
 
     let days = $state(0);
     let hours = $state(0);
@@ -60,19 +60,19 @@
     {/if}
 
     <nav class="button-group">
-        <a href="/coming-soon" class="btn" aria-disabled="true"
+        <a href="./coming-soon" class="btn" aria-disabled="true"
             >Resistance Registration</a
         >
-        <a href="/coming-soon" class="btn" aria-disabled="true">Swag Shop</a>
+        <a href="./coming-soon" class="btn" aria-disabled="true">Swag Shop</a>
 
-        <a href="/coming-to-geneva" class="btn">Coming to Geneva</a>
-        <a href="/anomaly-faq" class="btn">Anomaly FAQ</a>
-        <a href="/general-faq" class="btn">General FAQ</a>
+        <a href="./coming-to-geneva" class="btn">Coming to Geneva</a>
+        <a href="./anomaly-faq" class="btn">Anomaly FAQ</a>
+        <a href="./general-faq" class="btn">General FAQ</a>
     </nav>
 </main>
 
 <style lang="scss">
-@use "$lib/styles/variables" as *;
+    @use "$lib/styles/variables" as *;
 
     .countdown-container {
         display: flex;

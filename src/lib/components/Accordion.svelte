@@ -46,7 +46,7 @@
             background: $white;
             text-align: left;
             cursor: pointer;
-            font-size: 1rem; // Valeur du responsive mobile (16px)
+            font-size: 1rem;
             border-bottom: 1px solid $border-color;
             transition: $transition-base;
             font-weight: 700;
@@ -68,18 +68,14 @@
                 border-bottom: 2px solid $res-blue;
                 animation: fadeIn 0.4s ease;
             }
-
-            &.small {
-                font-size: 0.8125rem;
-                color: #3b5a9d;
-            }
+          
         }
 
         &-content {
             display: none;
             padding: 1rem;
             background: $white;
-            font-size: 0.9375rem; // Valeur du responsive mobile (15px)
+            font-size: 0.9375rem;
             line-height: 1.6;
             color: $text-muted;
             text-align: left;
@@ -90,7 +86,8 @@
                 animation: slideDown 0.3s ease-out;
             }
 
-            p {
+            // Correction ici : Utilisation de :global() pour les éléments du snippet
+            :global(p) {
                 color: $text-dark;
                 margin-bottom: 1.2rem;
                 line-height: 1.6;
@@ -100,11 +97,11 @@
                 }
             }
 
-            li {
+            :global(li) {
                 color: $text-dark;
             }
 
-            a:focus-visible {
+            :global(a:focus-visible) {
                 outline: 2px solid #0000ee;
                 outline-offset: 2px;
             }

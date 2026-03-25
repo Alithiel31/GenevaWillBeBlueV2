@@ -30,3 +30,9 @@ jobs:
         run: npm run build
         env:
           DATABASE_URL: "postgres://user:pass@localhost:5432/db" 
+
+      - name: 🔍 Lint Code
+        run: npm run lint
+
+      - name: 🏗️ Build
+        run: npm run build

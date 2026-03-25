@@ -1,5 +1,6 @@
 <script lang="ts">
   import logo from "$lib/assets/Geneve-Color.png";
+  import { base } from "$app/paths"; // Importation de la base pour les liens internes
 
   const registerUrl = "https://register.geneva.willbe.blue/";
 </script>
@@ -7,7 +8,7 @@
 <header class="custom-header">
   <div class="header-container">
     <nav class="nav-wrapper">
-      <a href="/" class="brand">
+      <a href="{base}/" class="brand">
         <img src={logo} alt="Geneva Blue Logo" class="logo-img" />
         <span class="brand-name"
           >GENEVA WILL BE<span class="cyan-text"> BLUE</span></span

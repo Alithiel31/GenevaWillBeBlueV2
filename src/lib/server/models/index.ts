@@ -1,7 +1,6 @@
-import { Agent } from './Agent';
+// src/lib/server/models/index.ts
 import { AccordionItem } from './Faq';
 import { Content } from './Travel';
 
-// On exporte tout d'ici pour que nos routes fassent : 
-// import { Agent } from '$lib/server/models';
-export { Agent, AccordionItem, Content };
+// On exporte uniquement ce qui existe
+export { AccordionItem, Content };

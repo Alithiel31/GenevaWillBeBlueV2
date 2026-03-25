@@ -1,20 +1,24 @@
-# On part d'une image Node.js légère
-FROM node:20-slim
+# --- Étape 1 : Construction (Builder) ---
+FROM node:20-slim AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-# On définit le dossier de travail dans le conteneur
+# --- Étape 2 : Exécution (Runner) ---
+FROM node:20-slim AS runner
 WORKDIR /app
 
-# On copie les fichiers de dépendances
-COPY package*.json ./
+# On ne copie que le build et les dépendances nécessaires
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
 
-# On installe les dépendances
-RUN npm install
+# Railway et les autres injectent dynamiquement le PORT
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE 3000
 
-# On copie tout le reste du code
-COPY . .
-
-# On expose le port 5173 (port par défaut de SvelteKit dev)
-EXPOSE 5173
-
-# Commande pour lancer le mode développement
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# On lance l'application compilée
+CMD ["node", "build"]

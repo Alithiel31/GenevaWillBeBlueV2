@@ -16,20 +16,39 @@ export const sequelize = new Sequelize(dbUrl || '', {
 
 let isInitialized = false;
 
+let initializationPromise: Promise<void> | null = null;
+
 export const connectDB = async () => {
+    // Si c'est déjà fait, on sort
     if (isInitialized) return;
 
-    try {
-        await sequelize.authenticate();
-        
-        // On initialise les modèles avec l'instance
-        initTravelModel(sequelize);
-        initFaqModel(sequelize);
-        
-        await sequelize.sync({ alter: true });
-        isInitialized = true;
-        console.log('✅ DB Initialisée');
-    } catch (e) {
-        console.error('❌ Erreur DB:', e);
-    }
+    // Si une initialisation est EN COURS, on attend la fin de celle-ci
+    if (initializationPromise) return initializationPromise;
+
+    // Sinon, on crée la promesse d'initialisation
+    initializationPromise = (async () => {
+        try {
+            await sequelize.authenticate();
+            console.log('🔵 [Database]: Connexion établie.');
+
+            // Initialisation des modèles
+            initTravelModel(sequelize);
+            initFaqModel(sequelize);
+
+            // Synchronisation des tables
+            await sequelize.sync({ alter: true });
+            
+            // --- OPTIONNEL : Ton script de SEED ici ---
+            // await seedDatabase(); 
+
+            isInitialized = true;
+            console.log('✅ [Database]: Modèles chargés et tables synchronisées.');
+        } catch (e) {
+            console.error('❌ [Database]: Erreur fatale :', e);
+            initializationPromise = null; // On permet de réessayer au prochain refresh
+            throw e;
+        }
+    })();
+
+    return initializationPromise;
 };

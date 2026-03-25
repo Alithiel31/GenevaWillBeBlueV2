@@ -1,16 +1,14 @@
-import { connectDb } from '$lib/server/db-init';
-import type { Handle } from '@sveltejs/kit';
+import { connectDB } from '$lib/server/database';
 
-// On lance la connexion mais on ne bloque pas l'export du handle
-console.log("🚀 [Hooks] Initialisation du portail de données...");
-connectDb().catch(err => {
-    console.error("❌ [Hooks] Erreur fatale lors de la connexion DB:", err);
-});
+// On lance l'initialisation dès que le container Docker démarre
+const dbPromise = connectDB();
 
-export const handle: Handle = async ({ event, resolve }) => {
-    // Optionnel : tu peux ajouter un log ici pour voir si les requêtes arrivent
-    // console.log(`[Request]: ${event.url.pathname}`);
-    
+/** @type {import('@sveltejs/kit').Handle} */
+export const handle = async ({ event, resolve }) => {
+    // ON ATTEND QUE LA DB SOIT PRÊTE !
+    // Si la DB n'est pas prête, SvelteKit attend ici avant de lancer le load() de tes pages
+    await dbPromise;
+
     const response = await resolve(event);
     return response;
 };

@@ -1,6 +1,9 @@
 import type { PageServerLoad } from './$types';
 import { Content } from '$lib/server/models/Travel';
 
+export const prerender = false;
+export const ssr = true;
+
 export const load: PageServerLoad = async () => {
     try {
         const faqs = await Content.findAll({

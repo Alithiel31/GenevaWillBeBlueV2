@@ -1,6 +1,8 @@
 import type { PageServerLoad } from './$types';
 import { Content } from '$lib/server/models/Travel';
 
+export const prerender = false;
+export const ssr = true;
 export const load: PageServerLoad = async () => {
     const travelOptions = await Content.findAll({
         where: { category: 'travel' },
@@ -10,7 +12,7 @@ export const load: PageServerLoad = async () => {
     return {
         options: travelOptions.map(opt => ({
             title: opt.title,
-            body: opt.body,
+            body: opt.content,
             icon: opt.icon ?? undefined 
         }))
     };

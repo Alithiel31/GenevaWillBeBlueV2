@@ -1,6 +1,8 @@
 import type { PageServerLoad } from './$types';
 import { Content } from '$lib/server/models/Travel';
 
+export const prerender = false;
+export const ssr = true;
 export const load: PageServerLoad = async () => {
     const faqs = await Content.findAll({
         where: { category: 'general' },
@@ -10,7 +12,7 @@ export const load: PageServerLoad = async () => {
     return {
         faqs: faqs.map(f => ({
             title: f.title,
-            body: f.body
+            body: f.content
         }))
     };
 };

@@ -3,7 +3,15 @@
     import { sanitize } from "$lib/utils/sanitize";
     import type { PageData } from "./$types";
 
+    interface FaqItem {
+        id: string;
+        question: string;
+        answer: string;
+    }
+
     let { data }: { data: PageData } = $props();
+
+    let faqs = $derived((data.faqs as unknown as FaqItem[]) ?? []);
 </script>
 
 <section class="coming">
@@ -16,9 +24,9 @@
         </div>
         <div class="right">
             <div class="accordion">
-                {#each data.faqs as faq (faq.title)}
-                    <Accordion title={faq.title}>
-                            {@html sanitize(faq.body)}
+                {#each faqs as faq (faq.id)}
+                    <Accordion title={faq.question}>
+                        {@html sanitize(faq.answer)}
                     </Accordion>
                 {/each}
             </div>

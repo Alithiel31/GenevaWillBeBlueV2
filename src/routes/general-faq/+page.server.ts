@@ -1,18 +1,21 @@
 import type { PageServerLoad } from './$types';
-import { Content } from '$lib/server/models/Travel';
+import { AccordionItem } from '$lib/server/models/Faq'; 
 
 export const prerender = false;
 export const ssr = true;
+
 export const load: PageServerLoad = async () => {
-    const faqs = await Content.findAll({
-        where: { category: 'general' },
+    const faqs = await AccordionItem.findAll({
+        where: { category: 'general' }, // 'anomaly' pour l'autre fichier
         order: [['order', 'ASC']]
     });
 
     return {
+        // On renvoie les noms exacts de la BDD pour que le front s'y retrouve
         faqs: faqs.map(f => ({
-            title: f.title,
-            body: f.content
+            id: f.id,
+            question: f.question, // On utilise question
+            answer: f.answer      // On utilise answer
         }))
     };
 };

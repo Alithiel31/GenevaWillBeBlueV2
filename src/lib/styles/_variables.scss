@@ -1,0 +1,45 @@
+// src/lib/styles/_variables.scss
+$res-blue: #2a5bd7;
+$res-blue-light: #f0f7ff;
+$res-blue-hover: #f8faff;
+$text-dark: #0f0f0f;
+$text-muted: #333;
+$border-color: #ddd;
+$white: #ffffff;
+$shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+$transition-base: all 0.3s ease;
+$font-open-sans: 'Open Sans', sans-serif;
+
+// Dans src/lib/styles/_variables.scss
+$main-bg-url: 'https://www.okvoyage.com/wp-content/uploads/2008/06/geneve-vue-lac-suisse.jpg';
+$bg-overlay: rgba(0, 0, 0, 0.7);
+$header-height: 6.25rem;
+
+// Dans src/lib/styles/_variables.scss
+$error-cyan: #00d4ff;
+$ingress-cyan: #00d4ff;
+$ingress-cyan-glow: rgba(0, 212, 255, 0.6);
+$ingress-cyan-border: rgba(0, 212, 255, 0.5);
+$bg-glass: rgba(26, 26, 26, 0.85);
+
+// Dans src/lib/styles/_variables.scss
+$padding-mobile: 1.5rem;
+$padding-desktop: 3.75rem;
+$gap-desktop: 60px;
+$font-h1-mobile: 1.625rem;
+$font-h1-desktop: 3rem;
+
+// Breakpoints
+$tablet: 992px;
+$small-phone: 600px;
+
+$error-bg-glow: rgba(0, 212, 255, 0.3);
+$error-white: #ffffff;
+
+// Variables pour la page d'erreur (404)
+$error-cyan: #00d4ff;
+$error-bg-glow: rgba(0, 212, 255, 0.3);
+$error-bg-soft: rgba(0, 212, 255, 0.1); // Celle qui vient de planter
+$error-white: #ffffff;
+$error-shadow: 0 0 20px rgba(0, 0, 0, 0.5);

@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:15
+    container_name: gva_blue_db
+    restart: always
+    environment:
+      POSTGRES_USER: agent_blue
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: genevawillbeblue
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - gva_network
+
+  web:
+    build: .
+    container_name: gva_blue_web
+    restart: unless-stopped
+    ports:
+      - "8888:5173"
+    environment:
+      - DATABASE_URL=postgres://agent_blue:password123@db:5432/genevawillbeblue
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - gva_network
+
+volumes:
+  db_data:
+
+networks:
+  gva_network:
+    driver: bridge

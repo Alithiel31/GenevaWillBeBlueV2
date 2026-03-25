@@ -1,0 +1,191 @@
+/* src/lib/styles/app.scss */
+
+// 1. Imports initiaux (Une seule fois suffit !)
+@use "variables" as *;
+@use "reset";
+
+// Import des polices Google
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap');
+
+// 2. Configuration Globale
+* {
+    box-sizing: border-box;
+}
+
+// 3. Styles du Body (Le cœur du design)
+// Note : SvelteKit peut parfois nécessiter :global(body) si l'import est dans +layout.svelte
+body {
+    margin: 0;
+    padding-top: $header-height;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; // On garde min-height pour que le footer puisse descendre
+
+    // Typographie
+    font-family: $font-open-sans;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $white;
+
+    // Arrière-plan (ton code est top, j'ai juste ajouté une sécurité)
+    background-color: #0f0f0f;
+    background-image: linear-gradient($bg-overlay, $bg-overlay), url($main-bg-url);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+// 4. Variables CSS (Pour le responsive)
+:root {
+    --gap-desktop: 60px;
+    --padding-mobile: 1.5rem;
+    --padding-desktop: 3.75rem;
+    --font-h1-mobile: 1.625rem;
+    --font-h1-desktop: 3rem;
+}
+
+// 5. Mise en page réutilisable (Coming/Hero section)
+.coming {
+    display: flex;
+    flex-direction: column;
+    padding: var(--padding-mobile);
+    animation: fadeIn 0.8s ease-out; // Ajout de l'animation ici
+}
+
+.left {
+    text-align: left;
+
+    h1 {
+        font-size: var(--font-h1-mobile);
+        margin-top: 50px;
+        text-transform: uppercase; // Style Ingress
+    }
+}
+
+.right {
+    width: 100%;
+    max-width: 300px;
+}
+
+// 6. Responsive (Tablettes et Desktop)
+@media (min-width: 992px) {
+    .coming {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: var(--padding-desktop);
+        gap: var(--gap-desktop);
+        justify-content: center;
+    }
+
+    .left {
+        flex: 1;
+        padding-top: 50px;
+
+        h1 {
+            font-size: var(--font-h1-desktop);
+        }
+    }
+
+    .right {
+        flex: 1.2;
+        max-width: none;
+    }
+}
+
+// 7. Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+// --- Layout "Coming to Geneva" ---
+.coming {
+    display: flex;
+    flex-direction: column; // Mobile first : Colonne par défaut
+    padding: $padding-mobile;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+
+    // Transition vers Desktop
+    @media (min-width: $tablet) {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: $padding-desktop;
+        gap: $gap-desktop;
+    }
+
+    .left {
+        flex: 1;
+        order: 1;
+        color: $white;
+        text-align: left;
+
+        h1 {
+            color: #1a73e8;
+            font-size: $font-h1-mobile;
+            margin-top: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            @media (min-width: $tablet) {
+                font-size: $font-h1-desktop;
+            }
+        }
+
+        p {
+            max-width: 31.25rem;
+            line-height: 1.6;
+            color: $white;
+        }
+
+        @media (min-width: $tablet) {
+            padding-top: 50px;
+        }
+    }
+
+    .right {
+        width: 100%;
+        max-width: 300px; // Limite sur mobile
+        order: 2;
+
+        @media (min-width: $tablet) {
+            flex: 1.2;
+            max-width: none; // On lève la limite sur desktop
+        }
+    }
+}
+
+// --- Éléments Globaux ---
+a {
+    font-weight: bold;
+}
+
+.budget-list {
+    padding-left: 2.5rem;
+    color: $text-dark;
+}
+
+// --- Animations ---
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

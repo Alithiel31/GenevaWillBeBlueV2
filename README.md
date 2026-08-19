@@ -13,8 +13,8 @@ Bienvenue sur le portail d'informations de la Résistance pour l'anomalie à Gen
 
 Le projet est entièrement conteneurisé avec Docker, ce qui garantit un environnement de développement identique pour tous les agents. Vous n'avez pas besoin d'installer Node.js ou PostgreSQL sur votre machine hôte.
 
-1. **Clonage du dépôt** : Executez `git clone https://github.com/votre-username/GenevaWillBeBlueSvelte.git` puis `cd GenevaWillBeBlueSvelte`.
-2. **Configuration** : Créez un fichier `.env` à la racine du projet et ajoutez la ligne suivante : `DATABASE_URL=postgres://agent_blue:password123@db:5432/genevawillbeblue`.
+1. **Clonage du dépôt** : Executez `git clone https://github.com/alithiel31/GenevaWillBeBlueV2.git` puis `cd GenevaWillBeBlueV2`.
+2. **Configuration** : Copiez `.env.example` en `.env` (`cp .env.example .env`) et renseignez au minimum `POSTGRES_PASSWORD`.
 3. **Lancement** : Exécutez la commande `docker-compose up --build`. Une fois le conteneur prêt, le portail est accessible sur votre navigateur à l'adresse **http://localhost:8888**.
 
 ---
@@ -28,5 +28,6 @@ Welcome to the information portal for Geneva Anomaly. This web application centr
 
 The project is fully containerized using Docker, ensuring an identical development environment for all agents. There is no need to install Node.js or PostgreSQL on your host machine.
 
-1. **Clone the repository**: Run `git clone https://github.com/votre-username/GenevaWillBeBlueSvelte.git` then `cd GenevaWillBeBlueSvelte`.
-2. **Configuration**: Create a `.env` file at the root of the project and
+1. **Clone the repository**: Run `git clone https://github.com/alithiel31/GenevaWillBeBlueV2.git` then `cd GenevaWillBeBlueV2`.
+2. **Configuration**: Copy `.env.example` to `.env` (`cp .env.example .env`) and fill in at least `POSTGRES_PASSWORD`.
+3. **Launch**: Run `docker-compose up --build`. Once the container is ready, the portal is available in your browser at **http://localhost:8888**.

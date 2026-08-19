@@ -21,5 +21,9 @@ ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
 
+# On évite de tourner en root dans le conteneur (node:20-slim fournit déjà cet utilisateur)
+RUN chown -R node:node /app
+USER node
+
 # On lance l'application compilée
 CMD ["node", "build"]

@@ -4,11 +4,11 @@ services:
     container_name: gva_blue_db
     restart: always
     environment:
-      POSTGRES_USER: agent_blue
-      POSTGRES_PASSWORD: password123
-      POSTGRES_DB: genevawillbeblue
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${POSTGRES_USER:-agent_blue}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Merci de définir POSTGRES_PASSWORD dans votre fichier .env}
+      POSTGRES_DB: ${POSTGRES_DB:-genevawillbeblue}
+    # Pas de port publié sur l'hôte : seul le service "web" a besoin d'atteindre la base,
+    # via le réseau interne "gva_network".
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
@@ -19,14 +19,14 @@ services:
     container_name: gva_blue_web
     restart: unless-stopped
     ports:
-      - "8888:5173"
+      # Le Dockerfile construit une image de production (adapter-node) qui écoute sur $PORT (3000).
+      - "8888:3000"
     environment:
-      - DATABASE_URL=postgres://agent_blue:password123@db:5432/genevawillbeblue
+      - DATABASE_URL=postgres://${POSTGRES_USER:-agent_blue}:${POSTGRES_PASSWORD:?Merci de définir POSTGRES_PASSWORD dans votre fichier .env}@db:5432/${POSTGRES_DB:-genevawillbeblue}
     depends_on:
       - db
-    volumes:
-      - .:/app
-      - /app/node_modules
+    # Pas de bind-mount du code source : l'image contient déjà le build de production,
+    # monter ". :/app" par-dessus écraserait le dossier "build" généré par le Dockerfile.
     networks:
       - gva_network
 

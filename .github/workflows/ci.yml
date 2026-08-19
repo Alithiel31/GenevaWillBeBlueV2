@@ -26,6 +26,9 @@ jobs:
       - name: 🔍 Lint Code
         run: npm run lint
 
+      - name: 🧬 Type Check
+        run: npm run check
+
       - name: 🧪 Run Vitest
         run: npm run test
         env:
